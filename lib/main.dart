@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'sign_in_card.dart';
 
 void main() => runApp(MyApp());
@@ -7,8 +8,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        cardTheme: CardTheme(
+          shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(32.0),
+              bottomRight: Radius.circular(32.0),
+              topRight: Radius.circular(4.0),
+              bottomLeft: Radius.circular(4.0),
+            ),
+          ),
+        ),
+      ),
       home: Scaffold(
-        appBar: null,
+        extendBodyBehindAppBar: true,
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          title: Text('Login'),
+          backgroundColor: Colors.transparent,
+          elevation: 0.0,
+        ),
         body: Center(
           child: Container(
             decoration: BoxDecoration(
@@ -20,9 +39,7 @@ class MyApp extends StatelessWidget {
                 Colors.purple.shade300,
               ],
             )),
-            child: Center(
-              child: const SignInCard()
-            ),
+            child: Center(child: const SignInCard()),
           ),
         ),
       ),
