@@ -11,10 +11,10 @@ class SignInCard extends StatelessWidget {
         child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Card(
-            child: Padding(
-            padding: const EdgeInsets.all(32.0),
-                child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[SignInForm()])))));
+                child: Padding(
+                    padding: const EdgeInsets.all(32.0),
+                    child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[SignInForm()])))));
   }
 }
