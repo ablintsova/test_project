@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'navigation.dart';
+import 'package:test_project/model/sign_in_response.dart';
+import 'package:test_project/web_service/test_api.dart' as api;
 
-// Create a Form widget.
+import '../navigation/navigation.dart';
+
 class SignInForm extends StatefulWidget {
   @override
   SignInFormState createState() {
@@ -9,19 +11,11 @@ class SignInForm extends StatefulWidget {
   }
 }
 
-// Create a corresponding State class.
-// This class holds data related to the form.
 class SignInFormState extends State<SignInForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
     return Form(
       key: _formKey,
       child: Column(
@@ -29,16 +23,9 @@ class SignInFormState extends State<SignInForm> {
         children: <Widget>[
           Padding(
               padding: const EdgeInsets.only(top: 16.0),
-              child: Text(
-                  'Nickname',
-                  style: TextStyle(
-                    fontSize: 14.0,
-                    color: Colors.grey
-                  )
-              )
-          ),
+              child: Text('Nickname',
+                  style: TextStyle(fontSize: 14.0, color: Colors.grey))),
           TextFormField(
-            // The validator receives the text that the user has entered.
             validator: (value) {
               if (value == null || value.isEmpty) {
                 return 'Введите имя пользователя';
@@ -55,14 +42,8 @@ class SignInFormState extends State<SignInForm> {
           ),
           Padding(
               padding: const EdgeInsets.only(top: 32.0),
-              child: Text(
-                  'Password',
-                  style: TextStyle(
-                      fontSize: 14.0,
-                      color: Colors.grey
-                  )
-              )
-          ),
+              child: Text('Password',
+                  style: TextStyle(fontSize: 14.0, color: Colors.grey))),
           TextFormField(
             decoration: InputDecoration(
               isDense: true,
@@ -81,7 +62,6 @@ class SignInFormState extends State<SignInForm> {
                 minWidth: 32,
               ),
             ),
-            // The validator receives the text that the user has entered.
             obscureText: true,
             obscuringCharacter: "*",
             enableSuggestions: false,
@@ -103,16 +83,7 @@ class SignInFormState extends State<SignInForm> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(4)),
                   elevation: 0),
-              onPressed: () {
-                // Validate returns true if the form is valid, or false otherwise.
-                if (_formKey.currentState!.validate()) {
-                  Navigator.push(context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => NavigationPage(),
-                          fullscreenDialog: true)
-                  );
-                }
-              },
+              onPressed: _signIn,
               child: Ink(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
@@ -130,11 +101,9 @@ class SignInFormState extends State<SignInForm> {
                       const BoxConstraints(minWidth: 88.0, minHeight: 56.0),
                   // min sizes for Material buttons
                   alignment: Alignment.center,
-                  child: const Text(
-                      'Sign In',
+                  child: const Text('Sign In',
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: 16.0)
-                  ),
+                      style: TextStyle(fontSize: 16.0)),
                 ),
               ),
             ),
@@ -162,5 +131,34 @@ class SignInFormState extends State<SignInForm> {
         ],
       ),
     );
+  }
+
+  void _signIn() async {
+    if (_formKey.currentState!.validate()) {
+      SignInResponse apiResponse = await api.signIn();
+      if (apiResponse.error.isEmpty) {
+        _saveAndRedirectToNews();
+      } else {
+        final snackBar = SnackBar(
+          content: Text(apiResponse.error),
+        );
+        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        //showInSnackBar((_apiResponse.ApiError as ApiError).error);
+      }
+    } else {
+      final snackBar = SnackBar(
+        content: Text("Проверьте корректность введённых данных"),
+      );
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+  void _saveAndRedirectToNews() {
+   // SharedPreferences prefs = await SharedPreferences.getInstance();
+    //await prefs.setString("userId", (_apiResponse.Data as User).userId);
+    Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (BuildContext context) => NavigationPage(),
+            fullscreenDialog: true));
   }
 }

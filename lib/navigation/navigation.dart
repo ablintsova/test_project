@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'feed_page.dart';
 import 'blank_page.dart';
-import 'my_flutter_app_icons.dart';
+import '../my_flutter_app_icons.dart';
 
 class NavigationPage extends StatelessWidget {
   @override
