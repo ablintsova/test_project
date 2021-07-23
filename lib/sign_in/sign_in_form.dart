@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:test_project/model/sign_in_response.dart';
 import 'package:test_project/web_service/test_api.dart' as api;
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../navigation/navigation.dart';
 
 class SignInForm extends StatefulWidget {
@@ -137,28 +137,28 @@ class SignInFormState extends State<SignInForm> {
     if (_formKey.currentState!.validate()) {
       SignInResponse apiResponse = await api.signIn();
       if (apiResponse.error.isEmpty) {
-        _saveAndRedirectToNews();
+        _saveAndRedirectToNews(apiResponse.token);
       } else {
-        final snackBar = SnackBar(
-          content: Text(apiResponse.error),
-        );
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        //showInSnackBar((_apiResponse.ApiError as ApiError).error);
+        showSnackBar(apiResponse.error);
       }
     } else {
-      final snackBar = SnackBar(
-        content: Text("Проверьте корректность введённых данных"),
-      );
-      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+      showSnackBar("Проверьте корректность введённых данных");
     }
   }
-  void _saveAndRedirectToNews() {
-   // SharedPreferences prefs = await SharedPreferences.getInstance();
-    //await prefs.setString("userId", (_apiResponse.Data as User).userId);
+  void _saveAndRedirectToNews(String token) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("token", token);
     Navigator.push(
         context,
         MaterialPageRoute(
             builder: (BuildContext context) => NavigationPage(),
             fullscreenDialog: true));
+  }
+
+  void showSnackBar(String text) {
+    final snackBar = SnackBar(
+      content: Text(text),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

@@ -1,10 +1,10 @@
 class SignInResponse {
 
-  String result;
+  String token;
   String error;
 
   SignInResponse({
-    this.result = "",
+    this.token = "",
     this.error = ""
   });
 }

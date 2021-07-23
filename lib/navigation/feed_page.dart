@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:test_project/web_service/test_api.dart' as api;
+import 'package:test_project/model/feed_response.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class FeedPage extends StatelessWidget {
   @override
@@ -8,23 +11,50 @@ class FeedPage extends StatelessWidget {
 }
 
 class Feed extends StatefulWidget {
+  Feed({Key? key}) : super(key: key);
+
   @override
   FeedState createState() => FeedState();
 }
 
 class FeedState extends State<Feed> {
-  Widget build(BuildContext context) {
-    return ListView.builder(
-        padding: EdgeInsets.all(16.0),
-        itemCount: 5,
-        itemBuilder: (context, item) => _buildPost(context, item));
+  late Future<FeedResponse> _futureFeed;
+  late String? _token;
+  @override
+  void initState() {
+    super.initState();
+    getFeed().whenComplete(() {
+      setState(() {
+        _futureFeed = api.getFeed(_token!);
+      });
+    });
   }
 
-  Widget _buildFeed() {
-    return ListView.builder(
-        padding: EdgeInsets.all(16.0),
-        itemCount: 5,
-        itemBuilder: (context, item) => _buildPost(context, item));
+  Future<void> getFeed() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    _token = prefs.getString('token');
+  }
+
+  List<Post> _posts = [];
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<FeedResponse>(
+      future: _futureFeed,
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          _posts = snapshot.data!.posts!;
+          return ListView.builder(
+              padding: EdgeInsets.all(16.0),
+              itemCount: _posts.length,
+              itemBuilder: (context, item) => _buildPost(context, item));
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+        // By default, show a loading spinner.
+        return CircularProgressIndicator();
+      },
+    );
   }
 
   Widget _buildPost(BuildContext context, int item) {
@@ -38,7 +68,7 @@ class FeedState extends State<Feed> {
               title: Text('Firstname Lastname'),
             ),
             ListTile(
-              title: Text('post content'),
+              title: Text(_posts[item].caption),
             ),
             ListTile(
               title: Row(
