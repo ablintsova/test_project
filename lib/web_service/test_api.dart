@@ -3,17 +3,20 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:test_project/model/sign_in_response.dart';
 import 'package:test_project/model/feed_response.dart';
+import 'package:test_project/model/sign_in_response.dart';
+import 'package:test_project/res/app_strings.dart';
+
+const String BASE_URL = 'https://app.ferfit.club/api';
 
 Future<SignInResponse> signIn() async {
   SignInResponse _apiResponse = new SignInResponse();
 
   try {
     final response = await http.post(
-      Uri.parse('https://app.ferfit.club/api/auth/refresh-tokens'),
       headers: <String, String> {
         HttpHeaders.authorizationHeader: 'token'
+      Uri.parse('$BASE_URL/auth/refresh-tokens'),
       },
     );
     final responseBody = json.decode(response.body);
@@ -21,15 +24,12 @@ Future<SignInResponse> signIn() async {
       case 200:
         _apiResponse.token = responseBody['result']['access'];
         break;
-      case 401:
-        _apiResponse.error = responseBody['msg'];
-        break;
       default:
         _apiResponse.error = responseBody['msg'];
         break;
     }
   } on SocketException {
-    _apiResponse.error = "Server error. Please retry";
+    _apiResponse.error = AppStrings.server_error;
   }
   return _apiResponse;
 }
@@ -41,7 +41,7 @@ Future<FeedResponse> getFeed(String token) async {
   try {
     final response = await http.get(
         Uri.parse(
-            'https://app.ferfit.club/api/feed?limit=10&offset=0&maxDate=2021-07-06T18:26:42.820994'),
+            '$BASE_URL/feed?limit=10&offset=0&maxDate=2021-07-06T18:26:42.820994'),
         headers: <String, String>{
           HttpHeaders.authorizationHeader: 'Bearer $token'
         });
@@ -53,15 +53,12 @@ Future<FeedResponse> getFeed(String token) async {
           _apiResponse.posts!.add(Post.fromJson(element));
         });
         break;
-      case 401:
-        _apiResponse.error = responseBody['msg'];
-        break;
       default:
         _apiResponse.error = responseBody['msg'];
         break;
     }
   } on SocketException {
-    _apiResponse.error = "Server error. Please retry";
+    _apiResponse.error = AppStrings.server_error;
   }
 
   return _apiResponse;

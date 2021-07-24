@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:test_project/web_service/test_api.dart' as api;
-import 'package:test_project/model/feed_response.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:test_project/model/feed_response.dart';
+import 'package:test_project/res/app_colors.dart';
+import 'package:test_project/res/app_strings.dart';
+import 'package:test_project/web_service/test_api.dart' as api;
 
 class FeedPage extends StatelessWidget {
   @override
@@ -20,6 +22,7 @@ class Feed extends StatefulWidget {
 class FeedState extends State<Feed> {
   late Future<FeedResponse> _futureFeed;
   late String? _token;
+
   @override
   void initState() {
     super.initState();
@@ -51,7 +54,6 @@ class FeedState extends State<Feed> {
         } else if (snapshot.hasError) {
           return Text("${snapshot.error}");
         }
-        // By default, show a loading spinner.
         return CircularProgressIndicator();
       },
     );
@@ -64,8 +66,11 @@ class FeedState extends State<Feed> {
           elevation: 2.0,
           child: Column(children: <Widget>[
             ListTile(
-              leading: FlutterLogo(),
-              title: Text('Firstname Lastname'),
+              leading: _buildRoundIcon(),
+              title: Text(
+                AppStrings.name,
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
             ListTile(
               title: Text(_posts[item].caption),
@@ -78,7 +83,7 @@ class FeedState extends State<Feed> {
                     padding: EdgeInsets.only(right: 8.0),
                     child: Icon(
                       Icons.favorite,
-                      color: Color.fromRGBO(209, 65, 79, 1),
+                      color: AppColors.red,
                       size: 24.0,
                       semanticLabel: 'Like',
                     ),
@@ -88,7 +93,7 @@ class FeedState extends State<Feed> {
                     child: Text(
                       '88',
                       style: TextStyle(
-                        color: Color.fromRGBO(209, 65, 79, 1),
+                        color: AppColors.red,
                       ),
                     ),
                   ),
@@ -96,7 +101,7 @@ class FeedState extends State<Feed> {
                     padding: EdgeInsets.only(right: 8.0),
                     child: Icon(
                       Icons.chat_bubble_outlined,
-                      color: Color.fromRGBO(206, 208, 213, 1),
+                      color: AppColors.grey,
                       size: 24.0,
                       semanticLabel: 'Comments',
                     ),
@@ -104,7 +109,7 @@ class FeedState extends State<Feed> {
                   Text(
                     '12',
                     style: TextStyle(
-                      color: Color.fromRGBO(206, 208, 213, 1),
+                      color: AppColors.grey,
                     ),
                   )
                 ],
@@ -114,6 +119,31 @@ class FeedState extends State<Feed> {
         )
     );
   }
+
+  Widget _buildRoundIcon() {
+    return Container(
+      child: Ink(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            colors: [
+              Colors.red.shade400,
+              Colors.purple.shade300,
+            ],
+          ),
+        ),
+        child: Container(
+          constraints: const BoxConstraints.tightFor(
+              width: 38.0, height: 38.0),
+          alignment: Alignment.center,
+          child: Image(
+              image: AssetImage('assets/images/photo.png'),
+              width: 35.0,
+              height: 35.0),
+        ),
+      ),
+    );
+  }
 }
-
-

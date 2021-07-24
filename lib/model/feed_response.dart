@@ -1,3 +1,5 @@
+import 'package:test_project/res/app_strings.dart';
+
 class FeedResponse {
   List<Post>? posts;
   String error;
@@ -16,5 +18,5 @@ class Post {
   });
 
   Post.fromJson(Map<String, dynamic> json)
-      : caption = json['caption'] == null ? "the caption was null" : json['caption'];
+      : caption = json['caption'] == null ? AppStrings.null_caption : json['caption'];
 }

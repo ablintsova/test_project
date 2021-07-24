@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:test_project/res/app_strings.dart';
 
 import 'sign_in/sign_in_card.dart';
 
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.transparent,
         appBar: AppBar(
-          title: Text('Login'),
+          title: Text(AppStrings.login),
           backgroundColor: Colors.transparent,
           elevation: 0.0,
         ),

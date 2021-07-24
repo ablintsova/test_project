@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:test_project/res/app_colors.dart';
+import 'package:test_project/res/app_strings.dart';
 import 'feed_page.dart';
 import 'blank_page.dart';
-import '../my_flutter_app_icons.dart';
+import '../res/my_flutter_app_icons.dart';
 
 class NavigationPage extends StatelessWidget {
   @override
@@ -17,6 +19,7 @@ class Navigation extends StatefulWidget {
 
 class NavigationState extends State<Navigation> {
   int _currentIndex = 0;
+
   final List<Widget> _pages = [
     FeedPage(),
     BlankPage('2nd page'),
@@ -29,7 +32,7 @@ class NavigationState extends State<Navigation> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'News',
+          AppStrings.news,
           style: TextStyle(
             color: Colors.black87,
           ),
@@ -45,28 +48,43 @@ class NavigationState extends State<Navigation> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: onMenuItemSelected,
-        currentIndex: 0,
+        currentIndex: _currentIndex,
+        selectedLabelStyle: TextStyle(
+            color: AppColors.red,
+            fontSize: 12.0
+        ),
+        selectedItemColor: AppColors.red,
+        selectedIconTheme: IconThemeData(
+            color: AppColors.red),
+        unselectedIconTheme: IconThemeData(
+          color: AppColors.grey
+        ),
         items: [
           BottomNavigationBarItem(
-              icon: Icon(MyFlutterApp.doc_text,
-                  color: Color.fromRGBO(209, 65, 79, 1)),
-              label: 'News'),
+              icon: Icon(
+                  MyFlutterApp.doc_text,
+                  size: 24.0),
+              label: AppStrings.news),
           BottomNavigationBarItem(
-              icon: Icon(MyFlutterApp.apple,
-                  color: Color.fromRGBO(206, 208, 213, 1)),
-              label: 'Apple'),
+              icon: Icon(
+                  MyFlutterApp.apple,
+                  size: 26.0),
+              label: AppStrings.apple),
           BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline,
-                  color: Color.fromRGBO(206, 208, 213, 1)),
-              label: 'Profile'),
+              icon: Icon(
+                  Icons.person_outline,
+                  size: 30.0),
+              label: AppStrings.profile),
           BottomNavigationBarItem(
-              icon:
-              Icon(MyFlutterApp.gym, color: Color.fromRGBO(206, 208, 213, 1)),
-              label: 'Gym'),
+              icon: Icon(
+                  MyFlutterApp.gym,
+                  size: 20.0),
+              label: AppStrings.gym),
           BottomNavigationBarItem(
-              icon: Icon(Icons.map_outlined,
-                  color: Color.fromRGBO(206, 208, 213, 1)),
-              label: 'Map')
+              icon: Icon(
+                  Icons.map_outlined,
+                  size: 26.0),
+              label: AppStrings.map)
         ],
       ),
     );
