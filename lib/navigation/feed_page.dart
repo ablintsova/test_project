@@ -21,21 +21,18 @@ class Feed extends StatefulWidget {
 
 class FeedState extends State<Feed> {
   late Future<FeedResponse> _futureFeed;
-  late String? _token;
+
 
   @override
   void initState() {
     super.initState();
-    getFeed().whenComplete(() {
-      setState(() {
-        _futureFeed = api.getFeed(_token!);
-      });
-    });
+    _futureFeed = getFeed();
   }
 
-  Future<void> getFeed() async {
+  Future<FeedResponse> getFeed() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    _token = prefs.getString('token');
+    String? token = prefs.getString('token');
+    return api.getFeed(token!);
   }
 
   List<Post> _posts = [];
