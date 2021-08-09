@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:test_project/model/feed_response.dart';
 import 'package:test_project/res/app_colors.dart';
 import 'package:test_project/res/app_strings.dart';
@@ -26,14 +25,14 @@ class FeedState extends State<Feed> {
   @override
   void initState() {
     super.initState();
-    _futureFeed = getFeed();
+    // _futureFeed = getFeed();
   }
 
-  Future<FeedResponse> getFeed() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    String? token = prefs.getString('token');
-    return api.getFeed(token!);
-  }
+  // Future<FeedResponse> getFeed() async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // String? token = prefs.getString('token');
+    // return api.getFeed(token!);
+  // }
 
   List<Post> _posts = [];
 

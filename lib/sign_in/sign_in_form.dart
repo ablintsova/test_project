@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:test_project/model/sign_in_response.dart';
 import 'package:test_project/res/app_strings.dart';
 import 'package:test_project/web_service/test_api.dart' as api;
-import 'package:shared_preferences/shared_preferences.dart';
 import '../navigation/navigation.dart';
 
 class SignInForm extends StatefulWidget {
@@ -158,8 +157,7 @@ class SignInFormState extends State<SignInForm> {
     }
   }
   void saveAndRedirectToNews(String token) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("token", token);
+    // await prefs.setString("token", token);
     Navigator.push(
         context,
         MaterialPageRoute(
