@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:test_project/res/app_colors.dart';
 import 'package:test_project/res/app_strings.dart';
-import 'feed_page.dart';
+import 'feed/feed_page.dart';
 import 'blank_page.dart';
 import '../res/my_flutter_app_icons.dart';
-
-class NavigationPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Navigation();
-  }
-}
 
 class Navigation extends StatefulWidget {
   @override
@@ -21,7 +14,7 @@ class NavigationState extends State<Navigation> {
   int _currentIndex = 0;
 
   final List<Widget> _pages = [
-    FeedPage(),
+    NewsPage(),
     BlankPage('2nd page'),
     BlankPage('3rd page'),
     BlankPage('4th page'),

@@ -14,7 +14,7 @@ class Post {
   String caption;
 
   Post({
-    this.caption = ""
+    required this.caption
   });
 
   Post.fromJson(Map<String, dynamic> json)

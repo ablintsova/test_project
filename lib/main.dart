@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:test_project/res/app_strings.dart';
+import 'package:test_project/sign_in/sign_in_card.dart';
 
-import 'sign_in/sign_in_card.dart';
-
-void main() => runApp(MyApp());
+void main() => runApp(
+      MyApp(),
+    );
 
 class MyApp extends StatelessWidget {
   @override
@@ -20,27 +20,26 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        appBarTheme: AppBarTheme(color: Colors.transparent),
       ),
       home: Scaffold(
         extendBodyBehindAppBar: true,
         backgroundColor: Colors.transparent,
-        appBar: AppBar(
-          title: Text(AppStrings.login),
-          backgroundColor: Colors.transparent,
-          elevation: 0.0,
-        ),
         body: Center(
           child: Container(
             decoration: BoxDecoration(
-                gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                Colors.red.shade400,
-                Colors.purple.shade300,
-              ],
-            )),
-            child: Center(child: const SignInCard()),
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.red.shade400,
+                  Colors.purple.shade300,
+                ],
+              ),
+            ),
+            child: Center(
+              child: SignInCard(),
+            ),
           ),
         ),
       ),
