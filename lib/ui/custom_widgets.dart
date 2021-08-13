@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:test_project/helpers/utils.dart';
 import 'package:test_project/helpers/validators.dart';
 import 'package:test_project/res/app_colors.dart';
 import 'package:test_project/res/app_strings.dart';
-import 'package:test_project/sign_in/stores/sign_in_store.dart';
 
 class SimpleLabel extends StatelessWidget {
   final EdgeInsets padding;
@@ -44,7 +42,6 @@ class LinkLabel extends StatelessWidget {
 }
 
 class SignInButton extends StatelessWidget {
-
   final SignIn signIn;
 
   SignInButton(this.signIn);
@@ -90,8 +87,8 @@ class NicknameField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) => Validator.nickname(value),
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) => Validator.nickname(value),
     );
   }
 }
@@ -100,27 +97,27 @@ class PasswordField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        decoration: InputDecoration(
-          isDense: true,
-          suffixIcon: GestureDetector(
-            onTap: () {},
-            child: Container(
-              margin: EdgeInsets.only(top: 4),
-              child: Icon(Icons.remove_red_eye_outlined,
-                  color: Colors.red.shade400),
-            ),
-          ),
-          suffixIconConstraints: BoxConstraints(
-            minHeight: 32,
-            minWidth: 32,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      decoration: InputDecoration(
+        isDense: true,
+        suffixIcon: GestureDetector(
+          onTap: () {},
+          child: Container(
+            margin: EdgeInsets.only(top: 4),
+            child:
+                Icon(Icons.remove_red_eye_outlined, color: Colors.red.shade400),
           ),
         ),
-        obscureText: true,
-        obscuringCharacter: "*",
-        enableSuggestions: false,
-        autocorrect: false,
-        validator: (value) => Validator.password(value),
+        suffixIconConstraints: BoxConstraints(
+          minHeight: 32,
+          minWidth: 32,
+        ),
+      ),
+      obscureText: true,
+      obscuringCharacter: "*",
+      enableSuggestions: false,
+      autocorrect: false,
+      validator: (value) => Validator.password(value),
     );
   }
 }
@@ -132,90 +129,122 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 2.0,
-      color: Colors.white,
-      child: Column(children: <Widget>[
-        ListTile(
-          leading: RoundIcon(),
-          title: Text(
-            AppStrings.name,
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
-        ),
-        ListTile(
-          title: Text(text),
-        ),
-        ListTile(
-          title: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: const <Widget>[
-              Icon(
-                Icons.favorite,
-                color: AppColors.red,
-                size: 24.0,
-                semanticLabel: 'Like',
+    return Stack(
+      alignment: const Alignment(-1.0, -1.0),
+      children: <Widget>[
+        Card(
+          elevation: 2.0,
+          color: Colors.white,
+          child: Column(children: <Widget>[
+            SizedBox(
+              height: 8.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const <Widget>[
+                SizedBox(
+                  width: 40.0,
+                ),
+                Text(
+                  AppStrings.name,
+                  style: TextStyle(fontWeight: FontWeight.w500, fontSize: 15.0),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            ListTile(
+              title: Text(
+                text,
+                style: TextStyle(fontSize: 15.0),
               ),
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                '88',
-                style: TextStyle(
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: const <Widget>[
+                SizedBox(
+                  width: 16.0,
+                ),
+                Icon(
+                  Icons.favorite,
                   color: AppColors.red,
+                  size: 16.0,
+                  semanticLabel: 'Like',
                 ),
-              ),
-              const SizedBox(
-                width: 16,
-              ),
-              Icon(
-                Icons.chat_bubble_outlined,
-                color: AppColors.grey,
-                size: 24.0,
-                semanticLabel: 'Comments',
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Text(
-                '12',
-                style: TextStyle(
+                const SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  '88',
+                  style: TextStyle(
+                    color: AppColors.red,
+                  ),
+                ),
+                const SizedBox(
+                  width: 24.0,
+                ),
+                Icon(
+                  Icons.chat_bubble_outlined,
                   color: AppColors.grey,
+                  size: 16.0,
+                  semanticLabel: 'Comments',
                 ),
-              )
-            ],
-          ),
+                const SizedBox(
+                  width: 8.0,
+                ),
+                Text(
+                  '12',
+                  style: TextStyle(
+                    color: AppColors.grey,
+                  ),
+                )
+              ],
+            ),
+            SizedBox(
+              height: 8.0,
+            ),
+          ]),
         ),
-      ]),
+        RoundIcon(),
+      ],
     );
   }
 }
 
 class RoundIcon extends StatelessWidget {
+  RoundIcon();
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Ink(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            colors: [
-              Colors.red.shade400,
-              Colors.purple.shade300,
-            ],
+    return Stack(
+      alignment: const Alignment(0.1, 0.1),
+      children: <Widget>[
+        SizedBox(
+          width: 32.0,
+          height: 32.0,
+          child: Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.red.shade400,
+                  Colors.purple.shade300,
+                ],
+              ),
+            ),
           ),
         ),
-        child: Container(
-          constraints: const BoxConstraints.tightFor(width: 38.0, height: 38.0),
-          alignment: Alignment.center,
-          child: Image(
-              image: AssetImage('assets/images/photo.png'),
-              width: 35.0,
-              height: 35.0),
-        ),
-      ),
+        Image(
+            image: AssetImage('assets/images/photo.png'),
+            width: 28.0,
+            height: 28.0),
+      ],
     );
   }
 }

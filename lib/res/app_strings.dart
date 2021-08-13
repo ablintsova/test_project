@@ -17,7 +17,7 @@ class AppStrings {
   static const gym = 'Gym';
   static const map = 'Map';
   static const name = 'Firstname Lastname';
-  static const null_caption = 'the caption was null';
+  static const null_caption = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec turpis velit, fringilla ut tortor sit amet, sodales ultricies odio. Quisque consectetur tempor nisi. Donec bibendum congue dapibus. Phasellus finibus, metus quis dictum feugiat, metus lacus vestibulum velit, at dictum lacus urna at leo. ';
 
   static const server_error = 'Server error. Please retry';
 

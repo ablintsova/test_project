@@ -28,23 +28,27 @@ class FeedState extends State<NewsPage> {
 
         if (getFeedStore.response?.posts != null) {
           final List<Post> posts = getFeedStore.response!.posts!;
-          return _buildListView(posts);
+          return _buildCustomScrollView(posts);
         }
         return CircularProgressIndicator();
       },
     );
   }
 
-  Widget _buildListView(List<Post> _posts) {
-    return ListView.builder(
-      padding: EdgeInsets.all(16.0),
-      itemCount: _posts.length,
-      itemBuilder: (context, item) => _buildPost(context, _posts[item].caption),
+  Widget _buildCustomScrollView(List<Post> _posts) {
+    return CustomScrollView(
+      slivers: <Widget>[
+        SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (context, index) => Padding(
+              padding: EdgeInsets.all(16.0),
+              child: PostCard(text: _posts[index].caption),
+            ),
+            childCount: _posts.length,
+          ),
+        ),
+      ],
     );
-  }
-
-  Widget _buildPost(BuildContext context, String text) {
-    return PostCard(text: text);
   }
 
   Widget getErrorView() {
